@@ -45,6 +45,18 @@
 
         <li class="field comp-setting-entry is-set">
             <div class="wrapper-comp-setting">
+                <label class="label setting-label" for="is_scorm_course">{% trans field_is_scorm_course.display_name %}</label>
+                <select name="is_scorm_course" id="is_scorm_course">
+                    <option value="1" {% if scorm_xblock.is_scorm_course %}selected{% endif %}>{% trans "True" %}</option>
+                    <option value="0" {% if not scorm_xblock.is_scorm_course %}selected{% endif %}>{% trans "False" %}</option>
+                </select>
+            </div>
+            <span class="tip setting-help">{% trans field_is_scorm_course.help %}</span>
+        </li>
+
+        {% if not scorm_xblock.is_scorm_course %}
+        <li class="field comp-setting-entry is-set">
+            <div class="wrapper-comp-setting">
                 <label class="label setting-label" for="enable_fullscreen_button">{% trans field_enable_fullscreen_button.display_name %}</label>
                 <select name="enable_fullscreen_button" id="enable_fullscreen_button">
                     <option value="1" {% if scorm_xblock.enable_fullscreen_button %}selected{% endif %}>{% trans "True" %}</option>
@@ -54,6 +66,7 @@
             <span class="tip setting-help">{% trans field_enable_fullscreen_button.help %}</span>
         </li>
 
+        {% endif %}
         <li class="field comp-setting-entry is-set">
             <div class="wrapper-comp-setting">
                 <label class="label setting-label" for="weight">{% trans field_weight.display_name %}</label>
@@ -62,6 +75,7 @@
             <span class="tip setting-help">{% trans field_weight.help %}</span>
         </li>
 
+        {% if not scorm_xblock.is_scorm_course %}
         <li class="field comp-setting-entry is-set">
             <div class="wrapper-comp-setting">
                 <label class="label setting-label" for="width">{% trans field_width.display_name %}</label>
@@ -77,7 +91,7 @@
             </div>
             <span class="tip setting-help">{% trans field_height.help %}</span>
         </li>
-        
+
         <li class="field comp-setting-entry is-set">
             <div class="wrapper-comp-setting">
                 <label class="label setting-label" for="navigation_menu_width">{% trans field_navigation_menu_width.display_name %}</label>
@@ -95,6 +109,7 @@
             </div>
             <span class="tip setting-help">{% trans field_popup_on_launch.help %}</span>
         </li>
+        {% endif %}
     </ul>
 
     <div class="xblock-actions">

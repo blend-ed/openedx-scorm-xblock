@@ -128,6 +128,15 @@ class ScormXBlock(XBlock, CompletableXBlockMixin):
         default=False,
         scope=Scope.settings,
     )
+    is_scorm_course = Boolean(
+        display_name=_("SCORM course mode"),
+        help=_(
+            "Use full viewport height and hide layout options (fullscreen, width, height, "
+            "navigation menu width, popup on launch)."
+        ),
+        default=False,
+        scope=Scope.settings,
+    )
     enable_fullscreen_button = Boolean(
         display_name=_("Show Fullscreen Button"),
         help=_("Select True to show fullscreen button in the SCORM content"),
@@ -251,6 +260,7 @@ class ScormXBlock(XBlock, CompletableXBlockMixin):
             "field_height": self.fields["height"],
             "field_popup_on_launch": self.fields["popup_on_launch"],
             "field_enable_navigation_menu": self.fields["enable_navigation_menu"],
+            "field_is_scorm_course": self.fields["is_scorm_course"],
             "field_enable_fullscreen_button": self.fields["enable_fullscreen_button"],
             "field_navigation_menu_width": self.fields["navigation_menu_width"],
             "popup_on_launch": self.fields["popup_on_launch"],
@@ -277,6 +287,7 @@ class ScormXBlock(XBlock, CompletableXBlockMixin):
         self.height = parse_int(request.params["height"], None)
         self.has_score = request.params["has_score"] == "1"
         self.enable_navigation_menu = request.params["enable_navigation_menu"] == "1"
+        self.is_scorm_course = request.params.get("is_scorm_course", "0") == "1"
         self.enable_fullscreen_button = request.params["enable_fullscreen_button"] == "1"
         self.navigation_menu_width = parse_int(
             request.params["navigation_menu_width"], None
