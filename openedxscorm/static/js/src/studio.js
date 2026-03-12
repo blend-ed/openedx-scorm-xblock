@@ -8,17 +8,28 @@ function ScormStudioXBlock(runtime, element) {
         var display_name = $(element).find('input[name=display_name]').val();
         var has_score = $(element).find('select[name=has_score]').val();
         var enable_navigation_menu = $(element).find('select[name=enable_navigation_menu]').val();
-        var enable_fullscreen_button = $(element).find('select[name=enable_fullscreen_button]').val();
+        var is_scorm_course = $(element).find('select[name=is_scorm_course]').val();
+        var enable_fullscreen_button, width, height, navigation_menu_width, popup_on_launch;
+        if (is_scorm_course === "1") {
+            enable_fullscreen_button = "0";
+            width = "";
+            height = "";
+            navigation_menu_width = "";
+            popup_on_launch = "0";
+        } else {
+            enable_fullscreen_button = $(element).find('select[name=enable_fullscreen_button]').val();
+            width = $(element).find('input[name=width]').val();
+            height = $(element).find('input[name=height]').val();
+            navigation_menu_width = $(element).find('input[name=navigation_menu_width]').val();
+            popup_on_launch = $(element).find('select[name=popup_on_launch]').val();
+        }
         var weight = $(element).find('input[name=weight]').val();
-        var width = $(element).find('input[name=width]').val();
-        var height = $(element).find('input[name=height]').val();
-        var navigation_menu_width = $(element).find('input[name=navigation_menu_width]').val();
-        var popup_on_launch = $(element).find('select[name=popup_on_launch]').val();
 
         form_data.append('file', file_data);
         form_data.append('display_name', display_name);
         form_data.append('has_score', has_score);
         form_data.append('enable_navigation_menu', enable_navigation_menu);
+        form_data.append('is_scorm_course', is_scorm_course);
         form_data.append('enable_fullscreen_button', enable_fullscreen_button);
         form_data.append('weight', weight);
         form_data.append('width', width);
