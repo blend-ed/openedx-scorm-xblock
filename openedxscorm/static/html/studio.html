@@ -16,6 +16,11 @@
                 <label class="label setting-label" for="scorm_file">{% trans "Upload .zip package" %}</label>
                 <input class="input setting-input" name="scorm_file" id="scorm_file" type="file" accept="application/zip" />
             </div>
+            <div class="progress-bar-container">
+                <div class="xb-scorm-progress-bar">
+                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
             {% if scorm_xblock.package_meta.name %}
             <span class="tip setting-help setting-input-file"><span>{% trans "Currently:" %}</span> {{ scorm_xblock.package_meta.name }}</span>
             {% endif %}

@@ -1,6 +1,25 @@
-function ScormStudioXBlock(runtime, element) {
+function ScormStudioXBlock(runtime, element, args) {
 
     var handlerUrl = runtime.handlerUrl(element, 'studio_submit');
+    args = args || {};
+    args.uploading_txt = args.uploading_txt || "Uploading";
+    args.extracting_txt = args.extracting_txt || "Extracting";
+    args.uploaded_txt = args.uploaded_txt || "Uploaded";
+
+    function calcWidth(evt) {
+        var width = 0;
+        if (evt.lengthComputable) {
+            width = (evt.loaded / evt.total) * 100;
+        }
+        return Math.round(width);
+    }
+
+    function setProgressBarWidth(width, text) {
+        $('.xb-scorm-progress-bar .progress-bar', $(element))
+            .prop('aria-valuenow', width)
+            .css({ width: width + '%' })
+            .text(text + '(' + width + '%)');
+    }
 
     $(element).find('.save-button').bind('click', function () {
         var form_data = new FormData();
@@ -40,7 +59,8 @@ function ScormStudioXBlock(runtime, element) {
             state: 'start'
         });
 
-        $(this).addClass("disabled");
+        var $saveButton = $(this);
+        $saveButton.addClass("disabled");
         $.ajax({
             url: handlerUrl,
             dataType: 'json',
@@ -49,8 +69,28 @@ function ScormStudioXBlock(runtime, element) {
             processData: false,
             data: form_data,
             type: "POST",
+            xhr: function () {
+                if (file_data !== undefined) {
+                    $('.progress-bar-container', $(element)).show();
+                } else {
+                    $('.progress-bar-container', $(element)).hide();
+                }
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function (evt) {
+                    setProgressBarWidth(calcWidth(evt), args.uploading_txt);
+                });
+                xhr.upload.addEventListener("load", function () {
+                    // xblock handler does not stream the unzip step, so jump to
+                    // a fixed point and label it "extracting" until the response lands.
+                    setProgressBarWidth(50, args.extracting_txt);
+                });
+                xhr.addEventListener("load", function () {
+                    setProgressBarWidth(100, args.uploaded_txt);
+                });
+                return xhr;
+            },
             complete: function () {
-                $(this).removeClass("disabled");
+                $saveButton.removeClass("disabled");
             },
             success: function (response) {
                 if (response.errors.length > 0) {
