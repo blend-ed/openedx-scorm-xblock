@@ -271,7 +271,14 @@ class ScormXBlock(XBlock, CompletableXBlockMixin):
         frag = Fragment(template)
         frag.add_css(self.resource_string("static/css/scormxblock.css"))
         frag.add_javascript(self.resource_string("static/js/src/studio.js"))
-        frag.initialize_js("ScormStudioXBlock")
+        frag.initialize_js(
+            "ScormStudioXBlock",
+            json_args={
+                "uploading_txt": _("Uploading"),
+                "extracting_txt": _("Extracting"),
+                "uploaded_txt": _("Uploaded"),
+            },
+        )
         return frag
 
     @staticmethod

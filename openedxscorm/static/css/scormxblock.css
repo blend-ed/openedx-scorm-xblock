@@ -2,6 +2,29 @@
 .scorm-xblock .scorm-embedded {
     border: none;
 }
+
+/* studio_view upload progress bar */
+.progress-bar-container {
+    display: none;
+    margin-top: 10px;
+}
+.xb-scorm-progress-bar {
+    display: flex;
+    height: 2rem;
+    overflow: hidden;
+    font-size: 1.5rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+.xb-scorm-progress-bar .progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    background-color: #007bff;
+    transition: width .6s ease;
+}
 .scorm-xblock span.setting-input-file {
     padding-left: 25%;
     margin-left: 14px;
